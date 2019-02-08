@@ -83,7 +83,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ): Result {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         return self::getStatic('apisearch_server.query_bus')
             ->handle(new Query(
@@ -114,7 +114,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new DeleteItems(
@@ -147,7 +147,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         ?string $index = null,
         ?Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new IndexItems(
@@ -182,7 +182,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new UpdateItems(
@@ -214,7 +214,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
         $indexUUID = IndexUUID::createById($index ?? self::$index);
 
         self::getStatic('apisearch_server.command_bus')
@@ -245,7 +245,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId = null,
         Token $token = null
     ): array {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         return self::getStatic('apisearch_server.query_bus')
             ->handle(new GetIndices(
@@ -274,7 +274,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         Token $token = null,
         Config $config = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
         $indexUUID = IndexUUID::createById($index ?? self::$index);
 
         self::getStatic('apisearch_server.command_bus')
@@ -309,7 +309,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
         $indexUUID = IndexUUID::createById($index ?? self::$index);
 
         self::getStatic('apisearch_server.command_bus')
@@ -344,7 +344,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ): bool {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
         $indexUUID = IndexUUID::createById($index ?? self::$index);
 
         return self::getStatic('apisearch_server.query_bus')
@@ -374,7 +374,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $index = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
         $indexUUID = IndexUUID::createById($index ?? self::$index);
 
         self::getStatic('apisearch_server.command_bus')
@@ -406,7 +406,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new AddToken(
@@ -434,7 +434,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new DeleteToken(
@@ -462,7 +462,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         return self::getStatic('apisearch_server.query_bus')
             ->handle(new GetTokens(
@@ -485,7 +485,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId = null,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new DeleteTokens(
@@ -516,7 +516,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId,
         Token $token
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new AddInteraction(
@@ -546,7 +546,7 @@ abstract class ServiceFunctionalTest extends ApisearchServerBundleFunctionalTest
         string $appId,
         Token $token = null
     ) {
-        $appUUID = AppUUID::createById($appId ?? self::$appId);
+        $appUUID = AppUUID::createById($appId ?? static::$appId);
 
         self::getStatic('apisearch_server.command_bus')
             ->handle(new DeleteAllInteractions(

@@ -27,7 +27,7 @@ abstract class AddDeleteTokensCommandTest extends CommandTest
     {
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
@@ -36,7 +36,7 @@ abstract class AddDeleteTokensCommandTest extends CommandTest
         static::runCommand([
             'command' => 'apisearch-server:add-token',
             'uuid' => $this->token,
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             '--index' => [self::$index],
         ]);
 
@@ -45,14 +45,14 @@ abstract class AddDeleteTokensCommandTest extends CommandTest
         static::runCommand([
             'command' => 'apisearch-server:delete-token',
             'uuid' => $this->token,
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
         ]);
 
         $this->assertTokenNotExists();
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
     }
@@ -64,9 +64,9 @@ abstract class AddDeleteTokensCommandTest extends CommandTest
     {
         $output = static::runCommand([
             'command' => 'apisearch-server:add-token',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
         ]);
-        
+
         preg_match('~Token UUID: (.*?)~', $output, $match);
         $this->assertTokenNotExists($match[1]);
     }

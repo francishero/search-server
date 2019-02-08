@@ -29,13 +29,13 @@ class ImportExportIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         $importOutput = static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
@@ -46,7 +46,7 @@ class ImportExportIndexCommandTest extends CommandTest
 
         $exportOutput = static::runCommand([
             'command' => 'apisearch-server:export-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => $fileName,
         ]);
@@ -62,13 +62,13 @@ class ImportExportIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => 'anotherindexforexport',
         ]);
 

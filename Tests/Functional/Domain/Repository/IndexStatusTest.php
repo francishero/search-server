@@ -26,12 +26,12 @@ trait IndexStatusTest
     public function testIndexCheck()
     {
         $this->assertTrue($this->checkIndex(
-            self::$appId,
+            static::$appId,
             self::$index
         ));
 
         $this->assertFalse($this->checkIndex(
-            self::$appId,
+            static::$appId,
             self::$anotherIndex
         ));
 

@@ -33,7 +33,7 @@ abstract class GenerateBasicTokensCommandTest extends CommandTest
     {
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
@@ -42,7 +42,7 @@ abstract class GenerateBasicTokensCommandTest extends CommandTest
             'app-id' => static::$appId,
         ]);
 
-        $appUUID = AppUUID::createById(self::$appId);
+        $appUUID = AppUUID::createById(static::$appId);
         preg_match('~UUID\s*(.*?)\s*generated for admin~', $output, $matches);
         $uuidAdmin = $matches[1];
         preg_match('~UUID\s*(.*?)\s*generated for query~', $output, $matches);

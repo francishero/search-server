@@ -38,6 +38,13 @@ abstract class CurlFunctionalTest extends ApisearchServerBundleFunctionalTest
     use HttpResponsesToException;
 
     /**
+     * @var string
+     *
+     * App id
+     */
+    public static $appId = '6564544test';
+
+    /**
      * Query using the bus.
      *
      * @param QueryModel $query
@@ -550,7 +557,7 @@ abstract class CurlFunctionalTest extends ApisearchServerBundleFunctionalTest
                     : '-H "Content-Type: application/json"'
             ),
             $endpoint['path'],
-            $appId ?? self::$appId,
+            $appId ?? static::$appId,
             $index ?? self::$index,
             $token
                 ? $token->getTokenUUID()->composeUUID()

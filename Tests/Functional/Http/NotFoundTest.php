@@ -32,7 +32,7 @@ class NotFoundTest extends HttpFunctionalTest
             'get',
             '/v2',
             [
-                'app_id' => self::$appId,
+                'app_id' => static::$appId,
                 'index' => self::$index,
                 'token' => self::$godToken,
             ]

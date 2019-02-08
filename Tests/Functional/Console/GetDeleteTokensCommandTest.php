@@ -27,27 +27,27 @@ abstract class GetDeleteTokensCommandTest extends CommandTest
     {
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:add-token',
             'uuid' => $this->token,
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             '--index' => [self::$index],
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:add-token',
             'uuid' => '67890',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             '--index' => [self::$index],
         ]);
 
         $output = static::runCommand([
             'command' => 'apisearch-server:print-tokens',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
         ]);
 
         $this->assertTrue(strpos($output, "{$this->token}") > 0);
@@ -55,7 +55,7 @@ abstract class GetDeleteTokensCommandTest extends CommandTest
 
         $output = static::runCommand([
             'command' => 'apisearch-server:delete-all-tokens',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
         ]);
 
         $this->assertFalse(strpos($output, "{$this->token}"));

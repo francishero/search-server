@@ -40,6 +40,13 @@ use Exception;
 abstract class HttpFunctionalTest extends ApisearchServerBundleFunctionalTest
 {
     /**
+     * @var string
+     *
+     * App id
+     */
+    public static $appId = '65465775test';
+
+    /**
      * Query using the bus.
      *
      * @param QueryModel $query
@@ -489,7 +496,7 @@ abstract class HttpFunctionalTest extends ApisearchServerBundleFunctionalTest
         $repository = self::getStatic($repositoryName);
         $repository->setCredentials(
             RepositoryReference::create(
-                AppUUID::createById($appId ?? self::$appId),
+                AppUUID::createById($appId ?? static::$appId),
                 IndexUUID::createById($index ?? self::$index)
             ),
             $token

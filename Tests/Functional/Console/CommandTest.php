@@ -53,7 +53,7 @@ abstract class CommandTest extends HttpFunctionalTest
     {
         parent::setUpBeforeClass();
         try {
-            static::deleteIndex(self::$appId, self::$index);
+            static::deleteIndex(static::$appId, self::$index);
         } catch (ResourceNotAvailableException $e) {
             // Silent pass
         }
@@ -152,7 +152,7 @@ abstract class CommandTest extends HttpFunctionalTest
                 null,
                 new Token(
                     TokenUUID::createById($token ?? $this->token),
-                    AppUUID::createById(self::$appId)
+                    AppUUID::createById(static::$appId)
                 )
             )
         );

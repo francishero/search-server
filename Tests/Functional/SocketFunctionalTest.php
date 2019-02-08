@@ -21,6 +21,13 @@ namespace Apisearch\Server\Tests\Functional;
 abstract class SocketFunctionalTest extends HttpFunctionalTest
 {
     /**
+     * @var string
+     *
+     * App id
+     */
+    public static $appId = '5666555test';
+
+    /**
      * Get repository name.
      *
      * @return string

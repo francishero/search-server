@@ -32,7 +32,7 @@ class RedirectTest extends HttpFunctionalTest
             'get',
             '/v1/',
             [
-                'app_id' => self::$appId,
+                'app_id' => static::$appId,
                 'index' => self::$index,
                 'token' => self::$godToken,
             ]
@@ -45,7 +45,7 @@ class RedirectTest extends HttpFunctionalTest
         );
 
         $this->assertEquals(
-            sprintf('http://localhost/v1?app_id=%s&index=%s&token=%s', self::$appId, self::$index, self::$godToken),
+            sprintf('http://localhost/v1?app_id=%s&index=%s&token=%s', static::$appId, self::$index, self::$godToken),
             $response->headers->get('location')
         );
     }

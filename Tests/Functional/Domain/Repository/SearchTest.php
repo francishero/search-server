@@ -60,7 +60,7 @@ trait SearchTest
                     Query::createMatchAll(),
                     null,
                     null,
-                    $this->createTokenByIdAndAppId(self::$readonlyToken, self::$appId)
+                    $this->createTokenByIdAndAppId(self::$readonlyToken, static::$appId)
                 )
                 ->getItems()
         );

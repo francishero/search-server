@@ -31,7 +31,7 @@ class MalformedQueryTest extends CurlFunctionalTest
     {
         self::makeCurl(
             'v1-query',
-            self::$appId,
+            static::$appId,
             self::$index,
             null,
             '{"query":{"q":"","aggregations":{"undefined":{"field":"indexed_metadata.anon"}},"size":1000}}'

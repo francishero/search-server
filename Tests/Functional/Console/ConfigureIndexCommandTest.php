@@ -31,13 +31,13 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
@@ -49,7 +49,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:configure-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             '--synonym' => [
                 'robert, efervescencio',
@@ -63,7 +63,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
@@ -74,7 +74,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
     }
@@ -88,13 +88,13 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
@@ -106,7 +106,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:configure-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             '--synonyms-file' => __DIR__.'/synonyms.csv',
         ]);
@@ -118,7 +118,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
@@ -129,7 +129,7 @@ class ConfigureIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
     }

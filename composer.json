@@ -57,16 +57,6 @@
             "vendor/bin/php-formatter f:s:f . --exclude=vendor --exclude=web --exclude=bin --exclude=var",
             "vendor/bin/php-formatter f:u:s . --exclude=vendor --exclude=web --exclude=bin --exclude=var"
         ],
-        "clean-for-test": [
-            "export SYMFONY_BASE_KERNEL_DIR=$(php -r \"echo sys_get_temp_dir() . '/base-kernel/*';\") && rm -Rf $SYMFONY_BASE_KERNEL_DIR",
-            "rm -Rf var/cache/*",
-            "curl -XDELETE http://apisearch_elasticsearch:9200/apisearch_*_26178621test*"
-        ],
-        "clean-and-test": [
-            "@clean-for-test",
-            "vendor/bin/phpunit",
-            "@clean-for-test"
-        ],
         "test": [
             "vendor/bin/phpunit --testsuite=server",
             "vendor/bin/phpunit --testsuite=plugins"

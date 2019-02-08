@@ -31,14 +31,14 @@ class CreateIndexTest extends HttpFunctionalTest
     public function testCreateIndex(): void
     {
         $this->deleteIndex(
-            self::$appId,
+            static::$appId,
             self::$index
         );
 
         $client = $this->createClient();
         $testRoute = $this->get('router')->generate('search_server_api_create_index', [
             'token' => self::$godToken,
-            'app_id' => self::$appId,
+            'app_id' => static::$appId,
             'index' => self::$index,
         ]);
 

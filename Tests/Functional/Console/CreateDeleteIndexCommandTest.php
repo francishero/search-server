@@ -31,7 +31,7 @@ class CreateDeleteIndexCommandTest extends CommandTest
 
         static::runCommand([
                 'command' => 'apisearch-server:create-index',
-                'app-id' => self::$appId,
+                'app-id' => static::$appId,
                 'index' => self::$index,
             ]);
 
@@ -39,7 +39,7 @@ class CreateDeleteIndexCommandTest extends CommandTest
 
         static::runCommand([
                 'command' => 'apisearch-server:delete-index',
-                'app-id' => self::$appId,
+                'app-id' => static::$appId,
                 'index' => self::$index,
             ]);
 
@@ -54,13 +54,13 @@ class CreateDeleteIndexCommandTest extends CommandTest
         $this->assertNotExistsIndex();
         static::runCommand([
                 'command' => 'apisearch-server:create-index',
-                'app-id' => self::$appId,
+                'app-id' => static::$appId,
                 'index' => self::$index,
                 '--synonym' => [
                     'alfaguarra, percebeiro, engonga',
                 ],
             ]);
-        $this->indexTestingItems(self::$appId, self::$index);
+        $this->indexTestingItems(static::$appId, self::$index);
 
         $result = $this->query(Query::create('alfaguar'));
         $this->assertCount(1, $result->getItems());
@@ -76,7 +76,7 @@ class CreateDeleteIndexCommandTest extends CommandTest
 
         static::runCommand([
                 'command' => 'apisearch-server:delete-index',
-                'app-id' => self::$appId,
+                'app-id' => static::$appId,
                 'index' => self::$index,
             ]);
     }
@@ -88,19 +88,19 @@ class CreateDeleteIndexCommandTest extends CommandTest
     {
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             '--synonyms-file' => __DIR__.'/synonyms.csv',
         ]);
 
-        $this->indexTestingItems(self::$appId, self::$index);
+        $this->indexTestingItems(static::$appId, self::$index);
 
         $result = $this->query(Query::create('building'));
         $this->assertCount(3, $result->getItems());
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
     }
@@ -112,17 +112,17 @@ class CreateDeleteIndexCommandTest extends CommandTest
     {
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             '--shards' => 10,
             '--replicas' => 2,
         ]);
 
-        $this->indexTestingItems(self::$appId, self::$index);
+        $this->indexTestingItems(static::$appId, self::$index);
 
         $data = static::runCommand([
             'command' => 'apisearch-server:print-indices',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
         ]);
 
         $this->assertTrue(strpos($data, '| 10 ') > 0);
@@ -130,7 +130,7 @@ class CreateDeleteIndexCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:delete-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
     }

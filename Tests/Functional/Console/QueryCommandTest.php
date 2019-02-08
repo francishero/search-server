@@ -29,20 +29,20 @@ class QueryCommandTest extends CommandTest
 
         static::runCommand([
             'command' => 'apisearch-server:create-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
         static::runCommand([
             'command' => 'apisearch-server:import-index',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'file' => __DIR__.'/data.as',
         ]);
 
         $content = static::runCommand([
             'command' => 'apisearch-server:query',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
         ]);
 
@@ -60,7 +60,7 @@ class QueryCommandTest extends CommandTest
 
         $content2 = static::runCommand([
             'command' => 'apisearch-server:query',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'query' => 'Robert Grayson',
         ]);
@@ -83,7 +83,7 @@ class QueryCommandTest extends CommandTest
 
         $content3 = static::runCommand([
             'command' => 'apisearch-server:query',
-            'app-id' => self::$appId,
+            'app-id' => static::$appId,
             'index' => self::$index,
             'query' => 'Robert Grayson',
             '--page' => 1,

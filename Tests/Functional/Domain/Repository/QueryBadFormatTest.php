@@ -38,7 +38,7 @@ class QueryBadFormatTest extends HttpFunctionalTest
 
         $result = file_get_contents(sprintf('http://localhost:%d/v1?app_id=%s&index=%s&token=%s&query=%s',
             self::HTTP_TEST_SERVICE_PORT,
-            self::$appId,
+            static::$appId,
             self::$index,
             self::$godToken,
             '{"n":"""}'
