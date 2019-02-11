@@ -17,16 +17,15 @@ namespace Apisearch\Server\Domain\Command;
 
 use Apisearch\Model\Token;
 use Apisearch\Repository\RepositoryReference;
+use Apisearch\Server\Domain\AppRequiredCommand;
 use Apisearch\Server\Domain\AsynchronousableCommand;
 use Apisearch\Server\Domain\CommandWithRepositoryReferenceAndToken;
-use Apisearch\Server\Domain\IndexRequiredCommand;
-use Apisearch\Server\Domain\LoggableCommand;
 use Apisearch\User\Interaction;
 
 /**
  * Class AddInteraction.
  */
-class AddInteraction extends CommandWithRepositoryReferenceAndToken implements LoggableCommand, AsynchronousableCommand, IndexRequiredCommand
+class AddInteraction extends CommandWithRepositoryReferenceAndToken implements AsynchronousableCommand, AppRequiredCommand
 {
     /**
      * @var Interaction

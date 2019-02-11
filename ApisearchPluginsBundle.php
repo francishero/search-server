@@ -15,19 +15,9 @@ declare(strict_types=1);
 
 namespace Apisearch\Server;
 
-use Apisearch\Plugin\Callbacks\Domain\Callbacks;
-use Apisearch\Plugin\Elastica\ElasticaPluginBundle;
-use Apisearch\Plugin\ELK\ELKPluginBundle;
-use Apisearch\Plugin\MostRelevantWords\MostRelevantWordsPluginBundle;
-use Apisearch\Plugin\NewRelic\NewRelicPluginBundle;
-use Apisearch\Plugin\RabbitMQ\RabbitMQPluginBundle;
-use Apisearch\Plugin\RedisMetadataFields\RedisMetadataFieldsPluginBundle;
-use Apisearch\Plugin\RedisQueue\RedisQueuePluginBundle;
-use Apisearch\Plugin\RedisStorage\RedisStoragePluginBundle;
-use Apisearch\Plugin\Security\SecurityPluginBundle;
-use Apisearch\Plugin\StaticTokens\StaticTokensPluginBundle;
+use Apisearch\Plugin;
 use Apisearch\Server\DependencyInjection\Env;
-use Apisearch\Server\Domain\Plugin\Plugin;
+use Apisearch\Server\Domain\Plugin\Plugin as PluginInterface;
 use Mmoreram\BaseBundle\BaseBundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -60,7 +50,7 @@ class ApisearchPluginsBundle extends BaseBundle
 
             $reflectionClass = new \ReflectionClass($pluginNamespace);
 
-            return $reflectionClass->implementsInterface(Plugin::class);
+            return $reflectionClass->implementsInterface(PluginInterface::class);
         });
 
         return $pluginsAsArray;
@@ -76,17 +66,18 @@ class ApisearchPluginsBundle extends BaseBundle
     private static function resolveAliases(array $bundles): array
     {
         $aliases = [
-            'callbacks' => Callbacks::class,
-            'elastica' => ElasticaPluginBundle::class,
-            'elk' => ELKPluginBundle::class,
-            'most_relevant_words' => MostRelevantWordsPluginBundle::class,
-            'newrelic' => NewRelicPluginBundle::class,
-            'redis_metadata_fields' => RedisMetadataFieldsPluginBundle::class,
-            'redis_storage' => RedisStoragePluginBundle::class,
-            'redis_queues' => RedisQueuePluginBundle::class,
-            'static_tokens' => StaticTokensPluginBundle::class,
-            'rabbitmq' => RabbitMQPluginBundle::class,
-            'security' => SecurityPluginBundle::class,
+            'callbacks' => Plugin\Callbacks\CallbacksPluginBundle::class,
+            'elastica' => Plugin\Elastica\ElasticaPluginBundle::class,
+            'elk' => Plugin\ELK\ELKPluginBundle::class,
+            'most_relevant_words' => Plugin\MostRelevantWords\MostRelevantWordsPluginBundle::class,
+            'newrelic' => Plugin\NewRelic\NewRelicPluginBundle::class,
+            'redis_metadata_fields' => Plugin\RedisMetadataFields\RedisMetadataFieldsPluginBundle::class,
+            'redis_storage' => Plugin\RedisStorage\RedisStoragePluginBundle::class,
+            'redis_queues' => Plugin\RedisQueue\RedisQueuePluginBundle::class,
+            'static_tokens' => Plugin\StaticTokens\StaticTokensPluginBundle::class,
+            'rabbitmq' => Plugin\RabbitMQ\RabbitMQPluginBundle::class,
+            'security' => Plugin\Security\SecurityPluginBundle::class,
+            'pio' => Plugin\PredictionIO\PredictionIOPluginBundle::class,
         ];
 
         $combined = array_combine(

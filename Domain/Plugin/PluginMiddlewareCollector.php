@@ -36,7 +36,7 @@ class PluginMiddlewareCollector implements Middleware
      */
     public function addPluginMiddleware(PluginMiddleware $pluginMiddleware)
     {
-        $commandNamespaces = $pluginMiddleware->getSubscribedEvents();
+        $commandNamespaces = $pluginMiddleware->getSubscribedCommands();
 
         if (empty($commandNamespaces)) {
             $this->pluginMiddlewares['_all'][] = $pluginMiddleware;

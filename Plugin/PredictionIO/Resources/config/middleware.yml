@@ -1,0 +1,10 @@
+services:
+
+    #
+    # Middleware
+    #
+
+    apiserach_plugin.pio.interaction_middleware:
+        class: Apisearch\Plugin\PredictionIO\Domain\Middleware\InteractionMiddleware
+        tags:
+            - { name: apisearch_plugin.middleware }

@@ -45,7 +45,7 @@ abstract class ControllerWithBus extends BaseController
      * Get body element.
      *
      * @param Request                $request
-     * @param string                 $field
+     * @param string|null                 $field
      * @param TransportableException $exception
      * @param array                  $default
      *
@@ -53,7 +53,7 @@ abstract class ControllerWithBus extends BaseController
      */
     protected function getRequestContentObject(
         Request $request,
-        string $field,
+        ?string $field,
         TransportableException $exception,
         array $default = null
     ): array {
@@ -61,10 +61,20 @@ abstract class ControllerWithBus extends BaseController
         $requestBody = json_decode($requestContent, true);
 
         if (
-            !empty($requestContent) &&
-            is_null($requestBody)
+            (
+                !empty($requestContent) &&
+                is_null($requestBody)
+            ) ||
+            (
+                is_null($field) &&
+                !is_array($requestBody)
+            )
         ) {
             throw $exception;
+        }
+
+        if (is_null($field)) {
+            return $requestBody;
         }
 
         if (

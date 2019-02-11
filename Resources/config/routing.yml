@@ -54,15 +54,9 @@ search_server_api_delete_tokens:
 
 search_server_api_add_interaction:
     path: /v1/interaction
-    methods: ["GET"]
+    methods: ["POST"]
     defaults:
         _controller: apisearch_server.add_interaction_controller
-
-search_server_api_delete_all_interaction:
-    path: /v1/interactions
-    methods: ["DELETE"]
-    defaults:
-        _controller: apisearch_server.delete_all_interactions_controller
 
 search_server_api_query:
     path: /v1

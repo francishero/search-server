@@ -87,7 +87,6 @@ class ApisearchServerBundle extends BaseBundle
             new CompilerPass\ItemRepositoriesCompilerPass(),
             new CompilerPass\DomainEventsMiddlewareCompilerPass(),
             new CompilerPass\AppRepositoriesCompilerPass(),
-            new CompilerPass\UserRepositoriesCompilerPass(),
             new CompilerPass\CommandBusCompilerPass(),
             new CompilerPass\PluginsMiddlewareCompilerPass(),
             new CompilerPass\EnabledPluginsMiddlewareCompilerPass($this->kernel),

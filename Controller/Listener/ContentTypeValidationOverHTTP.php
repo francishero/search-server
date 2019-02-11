@@ -33,11 +33,12 @@ class ContentTypeValidationOverHTTP
     {
         $request = $event->getRequest();
 
-        if (!in_array($request->getMethod(), [
-            Request::METHOD_GET,
-            Request::METHOD_HEAD,
-        ]) && ('json' !== $request->getContentType())
-            && !empty($request->getContent())
+        if (
+            !in_array($request->getMethod(), [
+                Request::METHOD_GET,
+                Request::METHOD_HEAD,
+            ]) &&
+            ('json' !== $request->getContentType())
         ) {
             throw UnsupportedContentTypeException::createUnsupportedContentTypeException();
         }

@@ -105,19 +105,8 @@ services:
 
     apisearch_server.comand_handler.add_interaction:
         class: Apisearch\Server\Domain\CommandHandler\AddInteractionHandler
-        arguments:
-            - "@apisearch.user_repository_main"
-            - "@apisearch_server.inline_event_publisher"
         tags:
             - { name: tactician.handler, command: Apisearch\Server\Domain\Command\AddInteraction }
-
-    apisearch_server.comand_handler.delete_all_interaction:
-        class: Apisearch\Server\Domain\CommandHandler\DeleteAllInteractionsHandler
-        arguments:
-            - "@apisearch.user_repository_main"
-            - "@apisearch_server.inline_event_publisher"
-        tags:
-            - { name: tactician.handler, command: Apisearch\Server\Domain\Command\DeleteAllInteractions }
 
     apisearch_server.comand_handler.pause_consumers:
         class: Apisearch\Server\Domain\CommandHandler\PauseConsumersHandler
@@ -234,12 +223,6 @@ services:
     #
     # Domain Middlewares
     #
-    apisearch_server.middleware.interactions:
-        class: Apisearch\Server\Domain\Middleware\InteractionsMiddleware
-        arguments:
-            - "@apisearch.user_repository_main"
-        public: false
-
     apisearch_server.middleware.repository_reference:
         class: Apisearch\Server\Domain\Middleware\RepositoryReferenceMiddleware
         public: false
@@ -272,9 +255,6 @@ services:
         class: Apisearch\Server\Domain\Repository\AppRepository\Repository
         arguments:
             - "@apisearch_server.token_providers"
-
-    apisearch_server.user_repository:
-        class: Apisearch\Server\Domain\Repository\UserRepository\Repository
 
     #
     # Token
