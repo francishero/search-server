@@ -36,6 +36,7 @@ use Elasticsearch\Endpoints\Cat\Aliases;
 use Elasticsearch\Endpoints\Cat\Indices;
 use Elasticsearch\Endpoints\Indices\Mapping as MappingEndpoint;
 use Elasticsearch\Endpoints\Reindex;
+use Elasticsearch\Endpoints\Tasks\Get as Task;
 
 /**
  * Class ItemElasticaWrapper.
@@ -356,9 +357,13 @@ class ItemElasticaWrapper
                 ->composeUUID()
             : null;
 
-        $indexPrefix = $this->getAliasPrefix();
+        $indexUUIDComposedMultiple = is_string($indexUUIDComposed)
+            ? explode(',', $indexUUIDComposed)
+            : [null];
 
-        $indexSearchKeyword = $indexPrefix.'_'.(
+        $indexPrefix = $this->getAliasPrefix();
+        $indexSearchKeyword = array_map(function ($indexUUIDComposed) use ($indexPrefix, $appUUIDComposed) {
+            return $indexPrefix.'_'.(
                 empty($appUUIDComposed)
                     ? '*'
                     : $appUUIDComposed.'_'.(
@@ -366,7 +371,8 @@ class ItemElasticaWrapper
                             ? '*'
                             : $indexUUIDComposed
                     )
-        );
+                );
+        }, $indexUUIDComposedMultiple);
 
         $elasticaResponse = $this->client->requestEndpoint((new Indices())->setIndex($indexSearchKeyword));
         $elasticaMappingResponse = $this->client->requestEndpoint((new MappingEndpoint\Get())->setIndex($indexSearchKeyword));
@@ -617,9 +623,7 @@ class ItemElasticaWrapper
         );
 
         $reindex = new Reindex();
-        $reindex->setParams([
-            'wait_for_completion' => true,
-        ]);
+        $reindex->setParams(['wait_for_completion' => false]);
         $reindex->setBody([
             'source' => [
                 'index' => $indexOriginalOldName,
@@ -629,9 +633,26 @@ class ItemElasticaWrapper
             ],
         ]);
 
-        $this
+        $result = $this
             ->client
             ->requestEndpoint($reindex);
+
+        $taskId = $result->getData()['task'];
+        $task = new Task();
+        $task->setTaskId($taskId);
+
+        while (true) {
+            $taskResponse = $this
+                ->client
+                ->requestEndpoint($task);
+
+            $taskResponseData = $taskResponse->getData();
+            if (true === $taskResponseData['completed']) {
+                break;
+            }
+
+            sleep(1);
+        }
 
         $oldIndex->removeAlias($indexAliasName);
         $newIndex->addAlias($indexAliasName);

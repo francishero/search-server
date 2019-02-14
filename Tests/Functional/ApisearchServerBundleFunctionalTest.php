@@ -320,6 +320,13 @@ abstract class ApisearchServerBundleFunctionalTest extends BaseFunctionalTest
     }
 
     /**
+     * Time to wait after write exclusive command.
+     */
+    protected static function waitAfterExclusiveWriteCommand()
+    {
+    }
+
+    /**
      * Get elasticsearch endpoint.
      *
      * @return array
@@ -355,36 +362,26 @@ abstract class ApisearchServerBundleFunctionalTest extends BaseFunctionalTest
 
     /**
      * @var string
-     *
-     * App id
      */
     public static $appId = '26178621test';
 
     /**
      * @var string
-     *
-     * App id
      */
     public static $index = 'default';
 
     /**
      * @var string
-     *
-     * App id
      */
     public static $anotherAppId = '26178621testanother';
 
     /**
      * @var string
-     *
-     * App id
      */
     public static $anotherInexistentAppId = '26178621testnotexists';
 
     /**
      * @var string
-     *
-     * App id
      */
     public static $anotherIndex = 'anotherindex';
 
@@ -690,17 +687,6 @@ abstract class ApisearchServerBundleFunctionalTest extends BaseFunctionalTest
         int $weight,
         string $appId,
         Token $token
-    );
-
-    /**
-     * Delete all interactions.
-     *
-     * @param string $appId
-     * @param Token  $token
-     */
-    abstract public static function deleteAllInteractions(
-        string $appId,
-        Token $token = null
     );
 
     /**

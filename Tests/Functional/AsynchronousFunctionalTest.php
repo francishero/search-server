@@ -57,4 +57,12 @@ abstract class AsynchronousFunctionalTest extends ServiceFunctionalTest
     {
         usleep(600000);
     }
+
+    /**
+     * Time to wait after write exclusive command.
+     */
+    protected static function waitAfterExclusiveWriteCommand()
+    {
+        sleep(3);
+    }
 }

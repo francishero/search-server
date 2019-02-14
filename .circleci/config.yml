@@ -8,90 +8,87 @@ general:
         ignore:
             - docker-image/*
 jobs:
-
     build:
+        environment:
+            - "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93"
+            - "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34"
+            - "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9"
+            - "APISEARCH_ENABLED_PLUGINS=redis_queues"
+            - "ELASTICSEARCH_HOST=apisearch.elasticsearch"
+            - "ELASTICSEARCH_PORT=9200"
+            - "ELASTICSEARCH_REFRESH_ON_WRITE=1"
+            - "REDIS_STORAGE_HOST=apisearch.redis"
+            - "REDIS_STORAGE_PORT=6379"
+            - "REDIS_QUEUE_HOST=apisearch.redis"
+            - "REDIS_QUEUE_PORT=6379"
+            - "REDIS_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1"
+            - "REDIS_ELK_HOST=apisearch.redis"
+            - "REDIS_ELK_PORT=6379"
+            - "REDIS_METADATA_FIELDS_HOST=apisearch.redis"
+            - "REDIS_METADATA_FIELDS_PORT=6379"
+            - "RABBITMQ_QUEUE_HOST=localhost"
+            - "RABBITMQ_QUEUE_PORT=5672"
+            - "RABBITMQ_QUEUE_USER=guest"
+            - "RABBITMQ_QUEUE_PASSWORD=guest"
+            - "RABBITMQ_QUEUE_VHOST=/"
+            - "RABBITMQ_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1"
+
         docker:
-            - image: docker:stable
-        working_directory: ~/
+            - image: docker:18.09.2-git
+
+            - image: redis:4-alpine
+              name: "apisearch.redis"
+
+            - image: rabbitmq:3-alpine
+              name: "apisearch.rabbitmq"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.1.4
+              name: apisearch.elasticsearch.6.1
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+              name: apisearch.elasticsearch.6.2
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+              name: apisearch.elasticsearch.6.3
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
+              name: apisearch.elasticsearch.6.4
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+              name: apisearch.elasticsearch.6.5
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+            - image: docker.elastic.co/elasticsearch/elasticsearch:6.6.0
+              name: apisearch.elasticsearch
+              environment:
+                - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+                - "discovery.type=single-node"
+                - "action.auto_create_index=-apisearch*,+*"
+
+        working_directory: ~/project
         steps:
             - checkout
             - setup_remote_docker:
                 docker_layer_caching: true
-
-            - run:
-                name: Run elasticsearch ^6.1
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.1 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.1.4
-
-            - run:
-                name: Run elasticsearch ^6.2
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.2 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.2.4
-
-            - run:
-                name: Run elasticsearch ^6.3
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.3 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.3.2
-
-            - run:
-                name: Run elasticsearch ^6.4
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.4 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.4.3
-
-            - run:
-                name: Run elasticsearch ^6.5
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.5 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-
-            - run:
-                name: Run elasticsearch ^6.6
-                command: |
-                    docker run -d \
-                        --name=apisearch.elasticsearch.6.6 \
-                        -e "ES_JAVA_OPTS=-Xms256m -Xmx256m" \
-                        -e "discovery.type=single-node" \
-                        -e "action.auto_create_index=-apisearch*,+*" \
-                        docker.elastic.co/elasticsearch/elasticsearch:6.6.0
-
-            - run:
-                name: Run Redis
-                command: |
-                    docker run -d \
-                        --name="apisearch.redis" \
-                        redis:4-alpine \
-                        redis-server
-
-            - run:
-                name: Run RabbitMQ
-                command: |
-                    docker run -d \
-                        --name="apisearch.rabbitmq" \
-                        rabbitmq:3-alpine
 
             - run:
                 name: Build Apisearch
@@ -103,26 +100,7 @@ jobs:
                 command: |
                     docker run -d \
                         --name "apisearch.server" \
-                        --link "apisearch.redis" \
-                        --link "apisearch.elasticsearch.6.1" \
-                        --link "apisearch.elasticsearch.6.2" \
-                        --link "apisearch.elasticsearch.6.3" \
-                        --link "apisearch.elasticsearch.6.4" \
-                        --link "apisearch.elasticsearch.6.5" \
-                        --link "apisearch.elasticsearch.6.6" \
-                        --link "apisearch.rabbitmq" \
-                        -e "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93" \
-                        -e "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34" \
-                        -e "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9" \
-                        -e "ELASTICSEARCH_HOST=apisearch.elasticsearch.6.6" \
-                        -e "ELASTICSEARCH_PORT=9200" \
-                        -e "ELASTICSEARCH_REFRESH_ON_WRITE=1" \
-                        -e "REDIS_ELK_HOST=apisearch.redis" \
-                        -e "REDIS_ELK_PORT=6379" \
-                        -e "REDIS_STORAGE_HOST=apisearch.redis" \
-                        -e "REDIS_STORAGE_PORT=6379" \
-                        -e "REDIS_METADATA_FIELDS_HOST=apisearch.redis" \
-                        -e "REDIS_METADATA_FIELDS_PORT=6379" \
+                        --network host \
                         apisearch/server \
                         sh /server-pm-entrypoint.sh
 
@@ -130,25 +108,7 @@ jobs:
                 name: Run Apisearch in commands consumer with Redis as queue plugin
                 command: |
                     docker run -d \
-                        --name "apisearch.commands_consumer_redis" \
-                        --link "apisearch.redis" \
-                        --link "apisearch.elasticsearch.6.6" \
-                        -e "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93" \
-                        -e "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34" \
-                        -e "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9" \
-                        -e "APISEARCH_ENABLED_PLUGINS=redis_queues" \
-                        -e "ELASTICSEARCH_HOST=apisearch.elasticsearch.6.6" \
-                        -e "ELASTICSEARCH_PORT=9200" \
-                        -e "ELASTICSEARCH_REFRESH_ON_WRITE=1" \
-                        -e "REDIS_STORAGE_HOST=apisearch.redis" \
-                        -e "REDIS_STORAGE_PORT=6379" \
-                        -e "REDIS_QUEUE_HOST=apisearch.redis" \
-                        -e "REDIS_QUEUE_PORT=6379" \
-                        -e "REDIS_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1" \
-                        -e "REDIS_ELK_HOST=apisearch.redis" \
-                        -e "REDIS_ELK_PORT=6379" \
-                        -e "REDIS_METADATA_FIELDS_HOST=apisearch.redis" \
-                        -e "REDIS_METADATA_FIELDS_PORT=6379" \
+                        --network host \
                         apisearch/server \
                         sh /commands-consumer-entrypoint.sh
 
@@ -156,25 +116,7 @@ jobs:
                 name: Run Apisearch in domain events consumer mode with Redis as queue plugin
                 command: |
                     docker run -d \
-                        --name "apisearch.domain_events_consumer_redis" \
-                        --link "apisearch.redis" \
-                        --link "apisearch.elasticsearch.6.6" \
-                        -e "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93" \
-                        -e "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34" \
-                        -e "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9" \
-                        -e "APISEARCH_ENABLED_PLUGINS=redis_queues" \
-                        -e "ELASTICSEARCH_HOST=apisearch.elasticsearch.6.6" \
-                        -e "ELASTICSEARCH_PORT=9200" \
-                        -e "ELASTICSEARCH_REFRESH_ON_WRITE=1" \
-                        -e "REDIS_STORAGE_HOST=apisearch.redis" \
-                        -e "REDIS_STORAGE_PORT=6379" \
-                        -e "REDIS_QUEUE_HOST=apisearch.redis" \
-                        -e "REDIS_QUEUE_PORT=6379" \
-                        -e "REDIS_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1" \
-                        -e "REDIS_ELK_HOST=apisearch.redis" \
-                        -e "REDIS_ELK_PORT=6379" \
-                        -e "REDIS_METADATA_FIELDS_HOST=apisearch.redis" \
-                        -e "REDIS_METADATA_FIELDS_PORT=6379" \
+                        --network host \
                         apisearch/server \
                         sh /domain-events-consumer-entrypoint.sh
 
@@ -182,29 +124,7 @@ jobs:
                 name: Run Apisearch in commands consumer with Rabbitmq as queue plugin
                 command: |
                     docker run -d \
-                        --name "apisearch.commands_consumer_rabbitmq" \
-                        --link "apisearch.redis" \
-                        --link "apisearch.elasticsearch.6.6" \
-                        --link "apisearch.rabbitmq" \
-                        -e "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93" \
-                        -e "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34" \
-                        -e "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9" \
-                        -e "APISEARCH_ENABLED_PLUGINS=rabbitmq" \
-                        -e "ELASTICSEARCH_HOST=apisearch.elasticsearch.6.6" \
-                        -e "ELASTICSEARCH_PORT=9200" \
-                        -e "ELASTICSEARCH_REFRESH_ON_WRITE=1" \
-                        -e "REDIS_STORAGE_HOST=apisearch.redis" \
-                        -e "REDIS_STORAGE_PORT=6379" \
-                        -e "REDIS_ELK_HOST=apisearch.redis" \
-                        -e "REDIS_ELK_PORT=6379" \
-                        -e "REDIS_METADATA_FIELDS_HOST=apisearch.redis" \
-                        -e "REDIS_METADATA_FIELDS_PORT=6379" \
-                        -e "RABBITMQ_QUEUE_HOST=apisearch.rabbitmq" \
-                        -e "RABBITMQ_QUEUE_PORT=5672" \
-                        -e "RABBITMQ_QUEUE_USER=guest" \
-                        -e "RABBITMQ_QUEUE_PASSWORD=guest" \
-                        -e "RABBITMQ_QUEUE_VHOST=/" \
-                        -e "RABBITMQ_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1" \
+                        --network host \
                         apisearch/server \
                         sh /commands-consumer-entrypoint.sh
 
@@ -212,38 +132,22 @@ jobs:
                 name: Run Apisearch in domain events consumer mode with Rabbitmq as queue plugin
                 command: |
                     docker run -d \
-                        --name "apisearch.domain_events_consumer_rabbitmq" \
-                        --link "apisearch.redis" \
-                        --link "apisearch.elasticsearch.6.6" \
-                        --link "apisearch.rabbitmq" \
-                        -e "APISEARCH_GOD_TOKEN=0e4d75ba-c640-44c1-a745-06ee51db4e93" \
-                        -e "APISEARCH_READONLY_TOKEN=410806ed-f2c2-8d22-96ea-7fb68026df34" \
-                        -e "APISEARCH_PING_TOKEN=6326d504-0a5f-f1ae-7344-8e70b75fcde9" \
-                        -e "APISEARCH_ENABLED_PLUGINS=rabbitmq" \
-                        -e "ELASTICSEARCH_HOST=apisearch.elasticsearch.6.6" \
-                        -e "ELASTICSEARCH_PORT=9200" \
-                        -e "ELASTICSEARCH_REFRESH_ON_WRITE=1" \
-                        -e "REDIS_STORAGE_HOST=apisearch.redis" \
-                        -e "REDIS_STORAGE_PORT=6379" \
-                        -e "REDIS_ELK_HOST=apisearch.redis" \
-                        -e "REDIS_ELK_PORT=6379" \
-                        -e "REDIS_METADATA_FIELDS_HOST=apisearch.redis" \
-                        -e "REDIS_METADATA_FIELDS_PORT=6379" \
-                        -e "RABBITMQ_QUEUE_HOST=apisearch.rabbitmq" \
-                        -e "RABBITMQ_QUEUE_PORT=5672" \
-                        -e "RABBITMQ_QUEUE_USER=guest" \
-                        -e "RABBITMQ_QUEUE_PASSWORD=guest" \
-                        -e "RABBITMQ_QUEUE_VHOST=/" \
-                        -e "RABBITMQ_QUEUE_SECONDS_TO_WAIT_ON_BUSY=1" \
+                        --network host \
                         apisearch/server \
                         sh /domain-events-consumer-entrypoint.sh
 
             - run:
-                name: Run tests
+                name: Cat hosts
+                command: cat /etc/hosts
+
+            - run:
+                name: Prepare tests container
                 command: |
-                    docker logs apisearch.server
-                    docker logs apisearch.commands_consumer_redis
-                    docker logs apisearch.domain_events_consumer_redis
-                    docker logs apisearch.commands_consumer_rabbitmq
-                    docker logs apisearch.domain_events_consumer_rabbitmq
-                    docker exec -it apisearch.server sh /var/www/apisearch/scripts/run-tests
+                    docker exec -it apisearch.server sh /var/www/apisearch/.circleci/wait-for-infrastructure.sh
+                    docker exec -it apisearch.server sh /var/www/apisearch/.circleci/install-dependencies.sh
+
+            - run:
+                name: Run server tests
+                command: |
+                    docker exec -it apisearch.server sh /var/www/apisearch/.circleci/run-tests.sh Tests/Unit/
+                    docker exec -it apisearch.server sh /var/www/apisearch/.circleci/run-tests.sh Tests/Functional/Domain/Repository/ServiceRepositoryTest.php

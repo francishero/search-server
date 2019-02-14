@@ -74,12 +74,6 @@ services:
             - "%apisearch_plugin.elastica.repository_config_path%"
             - "%apisearch_plugin.elastica.refresh_on_write%"
 
-    apisearch_plugin.elastica.elastica_config_app_repository:
-        class: Apisearch\Plugin\Elastica\Domain\AppRepository\ConfigRepository
-        parent: apisearch_plugin.elastica.app_elastica_with_app_id_wrapper
-        tags:
-            - {name: "apisearch_server.app_repository"}
-
     apisearch_plugin.elastica.elastica_index_app_repository:
         class: Apisearch\Plugin\Elastica\Domain\AppRepository\IndexRepository
         parent: apisearch_plugin.elastica.app_elastica_with_app_id_wrapper

@@ -80,9 +80,10 @@ class UpdateRepository extends ElasticaWrapperWithRepositoryReference implements
                 $boolQuery
             );
 
+        $repositoryReference = $this->getRepositoryReference();
         $this
             ->elasticaWrapper
-            ->getIndex($this->getRepositoryReference())
+            ->getIndex($repositoryReference)
             ->updateByQuery(
                 $mainQuery,
                 $this->createUpdateScriptByChanges($changes),
@@ -92,7 +93,7 @@ class UpdateRepository extends ElasticaWrapperWithRepositoryReference implements
             );
 
         if ($this->refreshOnWrite) {
-            $this->refresh();
+            $this->refresh($repositoryReference);
         }
     }
 

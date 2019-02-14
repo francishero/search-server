@@ -43,15 +43,16 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
             return;
         }
 
+        $repositoryReference = $this->getRepositoryReference();
         $this
             ->elasticaWrapper
             ->addDocuments(
-                $this->getRepositoryReference(),
+                $repositoryReference,
                 $documents
             );
 
         if ($this->refreshOnWrite) {
-            $this->refresh();
+            $this->refresh($repositoryReference);
         }
     }
 

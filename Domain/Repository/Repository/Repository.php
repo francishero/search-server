@@ -15,10 +15,7 @@ declare(strict_types=1);
 
 namespace Apisearch\Server\Domain\Repository\Repository;
 
-use Apisearch\Config\Config;
-use Apisearch\Exception\ResourceExistsException;
 use Apisearch\Exception\ResourceNotAvailableException;
-use Apisearch\Exception\TransportableException;
 use Apisearch\Model\Changes;
 use Apisearch\Model\Index;
 use Apisearch\Model\Item;
@@ -102,75 +99,5 @@ class Repository extends BaseRepository
                 $query,
                 $changes
             );
-    }
-
-    /**
-     * Create an index.
-     *
-     * @param Config $config
-     *
-     * @throws ResourceExistsException
-     */
-    public function createIndex(Config $config)
-    {
-        $this
-            ->getRepository(IndexRepository::class)
-            ->createIndex($config);
-    }
-
-    /**
-     * Delete an index.
-     *
-     * @throws ResourceNotAvailableException
-     */
-    public function deleteIndex()
-    {
-        $this
-            ->getRepository(IndexRepository::class)
-            ->deleteIndex();
-    }
-
-    /**
-     * Reset the index.
-     *
-     * @throws ResourceNotAvailableException
-     */
-    public function resetIndex()
-    {
-        $this
-            ->getRepository(IndexRepository::class)
-            ->resetIndex();
-    }
-
-    /**
-     * Checks the index.
-     *
-     * @return bool
-     */
-    public function checkIndex(): bool
-    {
-        try {
-            $this
-                ->getRepository(IndexRepository::class)
-                ->getIndexStats();
-        } catch (TransportableException $exception) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Config the index.
-     *
-     * @param Config $config
-     *
-     * @throws ResourceNotAvailableException
-     */
-    public function configureIndex(Config $config)
-    {
-        $this
-            ->getRepository(ConfigRepository::class)
-            ->configureIndex($config);
     }
 }

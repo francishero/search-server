@@ -320,20 +320,6 @@ abstract class HttpFunctionalTest extends ApisearchServerBundleFunctionalTest
     }
 
     /**
-     * Delete all interactions.
-     *
-     * @param string $appId
-     * @param Token  $token
-     */
-    public static function deleteAllInteractions(
-        string $appId,
-        Token $token = null
-    ) {
-        self::configureUserRepository($appId, $token)
-            ->deleteAllInteractions();
-    }
-
-    /**
      * Ping.
      *
      * @param Token $token

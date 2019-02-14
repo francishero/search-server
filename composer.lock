@@ -65,12 +65,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/apisearch-io/php-client.git",
-                "reference": "559e5b01cc6c1bc1900db729e51c0d74565890a4"
+                "reference": "6662cc2aeaadb9b92f4b5266b46aa6e82e9b6b11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apisearch-io/php-client/zipball/559e5b01cc6c1bc1900db729e51c0d74565890a4",
-                "reference": "559e5b01cc6c1bc1900db729e51c0d74565890a4",
+                "url": "https://api.github.com/repos/apisearch-io/php-client/zipball/6662cc2aeaadb9b92f4b5266b46aa6e82e9b6b11",
+                "reference": "6662cc2aeaadb9b92f4b5266b46aa6e82e9b6b11",
                 "shasum": ""
             },
             "require": {
@@ -103,7 +103,7 @@
                     "email": "yuhu@mmoreram.com"
                 }
             ],
-            "time": "2019-02-13T08:28:48+00:00"
+            "time": "2019-02-14T23:44:03+00:00"
         },
         {
             "name": "cboden/ratchet",

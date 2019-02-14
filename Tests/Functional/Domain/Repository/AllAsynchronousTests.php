@@ -28,7 +28,7 @@ trait AllAsynchronousTests
     use ScoreStrategyTest;
     use SearchTest;
     use SearchNestedTest;
-    use IndexStatusTest;
+    use CheckIndexTest;
     use ErrorRecoveryTest;
     use SynonymsTest;
     use RepositoryResetTest;

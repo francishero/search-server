@@ -101,7 +101,7 @@ abstract class RabbitMQConsumer extends ApisearchCommand
         $channel->basic_qos(0, 1, false);
         $channel->basic_consume($consumerQueueName, '', false, false, false, false, function (AMQPMessage $message) use ($output, $channel) {
             if ($this->busy) {
-                $output->writeln('Busy channel. Rejecting and waiting '.$this->secondsToWaitOnBusy.' seconds');
+                static::printInfoMessage($output, 'RabbitMQ', 'Busy channel. Rejecting and waiting '.$this->secondsToWaitOnBusy.' seconds');
                 $channel->basic_reject($message->delivery_info['delivery_tag'], true);
                 sleep($this->secondsToWaitOnBusy);
 
@@ -118,7 +118,7 @@ abstract class RabbitMQConsumer extends ApisearchCommand
         $channel->basic_consume($busyGeneratedQueue, '', false, true, false, false, function (AMQPMessage $message) use ($channel, $output) {
             $this->busy = boolval($message->body);
 
-            $this->printInfoMessage($output, 'RabbitMQ', ($this->busy ? 'Paused' : 'Resumed').' consumer');
+            static::printInfoMessage($output, 'RabbitMQ', ($this->busy ? 'Paused' : 'Resumed').' consumer');
         });
 
         while (count($channel->callbacks)) {

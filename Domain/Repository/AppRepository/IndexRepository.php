@@ -63,4 +63,26 @@ interface IndexRepository
      * @throws ResourceNotAvailableException
      */
     public function resetIndex(IndexUUID $indexUUID);
+
+    /**
+     * Configure the index.
+     *
+     * @param IndexUUID $indexUUID
+     * @param Config    $config
+     *
+     * @throws ResourceNotAvailableException
+     */
+    public function configureIndex(
+        IndexUUID $indexUUID,
+        Config $config
+    );
+
+    /**
+     * Get the index stats.
+     *
+     * @param IndexUUID $indexUUID
+     *
+     * @return bool
+     */
+    public function isIndexOK(IndexUUID $indexUUID): bool;
 }

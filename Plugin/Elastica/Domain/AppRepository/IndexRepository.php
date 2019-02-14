@@ -22,7 +22,7 @@ use Apisearch\Model\Index;
 use Apisearch\Model\IndexUUID;
 use Apisearch\Plugin\Elastica\Domain\ElasticaWrapperWithRepositoryReference;
 use Apisearch\Server\Domain\Repository\AppRepository\IndexRepository as IndexRepositoryInterface;
-use Elastica\Index\Stats;
+use Elastica\Exception\ResponseException;
 
 /**
  * Class IndexRepository.
@@ -53,30 +53,23 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
         IndexUUID $indexUUID,
         Config $config
     ) {
-        $configPath = $this->getConfigPath($this->getRepositoryReference());
-        is_dir($configPath)
-            ? chmod($configPath, 0755)
-            : @mkdir($configPath, 0755, true);
-
-        $newRepositoryReference = $this
+        $repositoryReference = $this
             ->getRepositoryReference()
             ->changeIndex($indexUUID);
 
         $this
             ->elasticaWrapper
             ->createIndex(
-                $newRepositoryReference,
+                $repositoryReference,
                 $config
             );
 
         $this
             ->elasticaWrapper
             ->createIndexMapping(
-                $newRepositoryReference,
+                $repositoryReference,
                 $config
             );
-
-        $this->refresh();
     }
 
     /**
@@ -92,12 +85,6 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
                 ->getRepositoryReference()
                 ->changeIndex($indexUUID)
             );
-
-        $configPath = $this->getConfigPath($this->getRepositoryReference());
-        $this->deleteConfigFolder();
-        if (is_dir($configPath)) {
-            @rmdir($configPath);
-        }
     }
 
     /**
@@ -107,14 +94,15 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
      */
     public function resetIndex(IndexUUID $indexUUID)
     {
+        $repositoryReference = $this
+            ->getRepositoryReference()
+            ->changeIndex($indexUUID);
+
         $this
             ->elasticaWrapper
-            ->resetIndex($this
-                ->getRepositoryReference()
-                ->changeIndex($indexUUID)
-            );
+            ->resetIndex($repositoryReference);
 
-        $this->refresh();
+        $this->refresh($repositoryReference);
     }
 
     /**
@@ -129,16 +117,18 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
         IndexUUID $indexUUID,
         Config $config
     ) {
+        $repositoryReference = $this
+            ->getRepositoryReference()
+            ->changeIndex($indexUUID);
+
         $this
             ->elasticaWrapper
             ->configureIndex(
-                $this
-                    ->getRepositoryReference()
-                    ->changeIndex($indexUUID),
+                $repositoryReference,
                 $config
             );
 
-        $this->refresh();
+        $this->refresh($repositoryReference);
     }
 
     /**
@@ -146,29 +136,23 @@ class IndexRepository extends ElasticaWrapperWithRepositoryReference implements 
      *
      * @param IndexUUID $indexUUID
      *
-     * @return Stats
+     * @return bool
      */
-    public function getIndexStats(IndexUUID $indexUUID): Stats
+    public function isIndexOK(IndexUUID $indexUUID): bool
     {
-        return $this
-            ->elasticaWrapper
-            ->getIndexStats($this
-                ->getRepositoryReference()
-                ->changeIndex($indexUUID)
-            );
-    }
-
-    /**
-     * Delete all config folder.
-     */
-    private function deleteConfigFolder()
-    {
-        $configPath = $this->getConfigPath($this->getRepositoryReference());
-        $files = glob($configPath.'/*');
-        foreach ($files as $file) {
-            if (is_file($file)) {
-                unlink($file);
-            }
+        try {
+            $indices = $this
+                ->elasticaWrapper
+                ->getIndices($this
+                    ->getRepositoryReference()
+                    ->changeIndex($indexUUID)
+                );
+        } catch (ResponseException $exception) {
+            return false;
         }
+
+        return (bool) array_reduce($indices, function ($carry, Index $index) {
+            return $carry && $index->isOK();
+        }, true);
     }
 }

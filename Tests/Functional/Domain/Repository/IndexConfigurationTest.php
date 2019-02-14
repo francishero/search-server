@@ -38,11 +38,15 @@ trait IndexConfigurationTest
 
     /**
      * Test index check.
+     *
+     * @group lala
      */
     public function testConfigureIndexWithSynonyms()
     {
+        $this->assertCount(1, $this->query(Query::create('Alfaguarra'))->getItems());
         $this->assertCount(0, $this->query(Query::create('Flipencio'))->getItems());
         $this->configureIndex(Config::createEmpty()->addSynonym(Synonym::createByWords(['Alfaguarra', 'Flipencio'])));
+        $this->assertCount(1, $this->query(Query::create('Flipencio'))->getItems());
         $this->configureIndex(Config::createEmpty()->addSynonym(Synonym::createByWords(['hermenegildo', 'Alfaguarra', 'eleuterio'])));
         $this->assertCount(1, $this->query(Query::create('hermenegildo'))->getItems());
         $this->assertCount(1, $this->query(Query::create('Hermenegildo'))->getItems());

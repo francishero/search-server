@@ -171,14 +171,14 @@ class Repository extends RepositoryWithCredentials implements BaseRepository
     public function checkIndex(IndexUUID $indexUUID): bool
     {
         try {
-            $this
+            $result = $this
                 ->getRepository(IndexRepository::class)
-                ->getIndexStats($indexUUID);
+                ->isIndexOK($indexUUID);
         } catch (TransportableException $exception) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -194,7 +194,7 @@ class Repository extends RepositoryWithCredentials implements BaseRepository
         Config $config
     ) {
         $this
-            ->getRepository(ConfigRepository::class)
+            ->getRepository(IndexRepository::class)
             ->configureIndex(
                 $indexUUID,
                 $config

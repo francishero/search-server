@@ -31,17 +31,18 @@ class DeleteRepository extends ElasticaWrapperWithRepositoryReference implements
      */
     public function deleteItems(array $itemUUIDs)
     {
+        $repositoryReference = $this->getRepositoryReference();
         $this
             ->elasticaWrapper
             ->deleteDocumentsByIds(
-                $this->getRepositoryReference(),
+                $repositoryReference,
                 array_map(function (ItemUUID $itemUUID) {
                     return $itemUUID->composeUUID();
                 }, $itemUUIDs)
             );
 
         if ($this->refreshOnWrite) {
-            $this->refresh();
+            $this->refresh($repositoryReference);
         }
     }
 }

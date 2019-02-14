@@ -16,9 +16,9 @@ declare(strict_types=1);
 namespace Apisearch\Server\Tests\Functional\Domain\Repository;
 
 /**
- * Class IndexStatusTest.
+ * Class CheckIndexTest.
  */
-trait IndexStatusTest
+trait CheckIndexTest
 {
     /**
      * Test index check.
@@ -44,5 +44,19 @@ trait IndexStatusTest
             self::$anotherAppId,
             self::$anotherIndex
         ));
+
+        $this->assertFalse($this->checkIndex(
+            self::$anotherAppId,
+            self::$anotherIndex.','.self::$index
+        ));
+
+        $this->createIndex(self::$appId, self::$anotherIndex);
+
+        $this->assertTrue($this->checkIndex(
+            self::$appId,
+            self::$anotherIndex.','.self::$index
+        ));
+
+        $this->deleteIndex(self::$appId, self::$anotherIndex);
     }
 }

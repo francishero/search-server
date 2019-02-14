@@ -414,24 +414,6 @@ abstract class CurlFunctionalTest extends ApisearchServerBundleFunctionalTest
     }
 
     /**
-     * Delete all interactions.
-     *
-     * @param string $appId
-     * @param Token  $token
-     */
-    public static function deleteAllInteractions(
-        string $appId,
-        Token $token = null
-    ) {
-        self::makeCurl(
-            'v1-interactions-delete',
-            $appId,
-            null,
-            $token
-        );
-    }
-
-    /**
      * Ping.
      *
      * @param Token $token
@@ -567,7 +549,6 @@ abstract class CurlFunctionalTest extends ApisearchServerBundleFunctionalTest
             'code' => $responseCode,
             'body' => json_decode(file_get_contents($tmpFile), true),
         ];
-        unlink($tmpFile);
 
         self::throwTransportableExceptionIfNeeded($result);
 
